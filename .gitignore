@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+audit-report.md
+audit-result.json
+inventory.json
+coupling.json

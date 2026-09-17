@@ -1,0 +1,4 @@
+interface:
+  display_name: "Software Engineering Health Audit"
+  short_description: "Evidence-based engineering health and Vibe Slop audit"
+  default_prompt: "Use $software-engineering-health-audit to perform a read-only, evidence-based audit of this repository."

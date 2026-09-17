@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dulanjy/software-engineering-health-audit/blob/main/assets/audit-result.schema.json",
+  "title": "Software Engineering Health Audit Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "audit",
+    "project",
+    "engineering_health",
+    "vibe_slop_risk",
+    "evidence_confidence",
+    "production_readiness",
+    "critical_gates",
+    "dimensions",
+    "findings",
+    "missing_evidence",
+    "next_highest_leverage_improvement"
+  ],
+  "properties": {
+    "schema_version": { "const": "0.1" },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timestamp", "revision", "working_tree", "scope"],
+      "properties": {
+        "timestamp": { "type": "string", "format": "date-time" },
+        "revision": { "type": ["string", "null"] },
+        "working_tree": { "enum": ["clean", "dirty", "unknown"] },
+        "scope": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "exclusions": { "type": "array", "items": { "type": "string" }, "default": [] }
+      }
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "stage", "criticality"],
+      "properties": {
+        "type": { "enum": ["PROTOTYPE", "SCRIPT", "LIBRARY", "CLI", "INTERNAL_TOOL", "WEB_APPLICATION", "DATA_PIPELINE", "AI_AGENT", "BACKEND_SERVICE", "DISTRIBUTED_SYSTEM", "UNKNOWN"] },
+        "stage": { "enum": ["EXPERIMENT", "MVP", "ACTIVE_DEVELOPMENT", "PRODUCTION", "MATURE", "LEGACY", "UNKNOWN"] },
+        "criticality": { "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL", "UNKNOWN"] },
+        "classification_evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" }, "default": [] }
+      }
+    },
+    "engineering_health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "classification"],
+      "properties": {
+        "score": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "classification": { "enum": ["ROBUST", "MAINTAINABLE", "MAINTAINABLE_WITH_DEBT", "CONTROLLED_VIBE", "VIBE_RISK", "VIBE_SLOP", "STRUCTURALLY_UNSAFE", "WITHHELD"] }
+      }
+    },
+    "vibe_slop_risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "level", "mismatch_factor", "signals"],
+      "properties": {
+        "score": { "type": ["integer", "null"], "minimum": 0, "maximum": 100 },
+        "level": { "enum": ["LOW", "CONTROLLED", "MATERIAL", "HIGH", "SEVERE", "WITHHELD"] },
+        "mismatch_factor": { "type": "number", "minimum": 0.6, "maximum": 1.6 },
+        "factor_rationale": { "type": "string" },
+        "signals": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "items": { "$ref": "#/$defs/riskSignal" }
+        }
+      }
+    },
+    "evidence_confidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["score", "factors"],
+      "properties": {
+        "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "factors": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "minProperties": 6
+        }
+      }
+    },
+    "production_readiness": { "enum": ["NOT_ASSESSED", "BLOCKED", "CONDITIONAL", "READY"] },
+    "critical_gates": { "type": "array", "items": { "$ref": "#/$defs/gate" } },
+    "dimensions": { "type": "array", "items": { "$ref": "#/$defs/dimension" }, "minItems": 10, "maxItems": 10 },
+    "repository_amnesia_test": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["self_sufficiency", "observations", "missing_knowledge"],
+      "properties": {
+        "self_sufficiency": { "enum": ["HIGH", "MEDIUM", "LOW", "UNKNOWN"] },
+        "observations": { "type": "array", "items": { "type": "string" } },
+        "missing_knowledge": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "controlled_change_test": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["simulated_change", "predicted_modules", "boundaries_crossed", "unknown_dependencies", "verification_plan_available", "blast_radius"],
+      "properties": {
+        "simulated_change": { "type": "string" },
+        "predicted_modules": { "type": "array", "items": { "type": "string" } },
+        "boundaries_crossed": { "type": "array", "items": { "type": "string" } },
+        "unknown_dependencies": { "type": "array", "items": { "type": "string" } },
+        "verification_plan_available": { "type": ["boolean", "null"] },
+        "blast_radius": { "enum": ["LOW", "MEDIUM", "HIGH", "UNKNOWN"] }
+      }
+    },
+    "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
+    "missing_evidence": { "type": "array", "items": { "type": "string" } },
+    "next_highest_leverage_improvement": { "$ref": "#/$defs/recommendation" },
+    "recommended_roadmap": { "type": "array", "maxItems": 5, "items": { "$ref": "#/$defs/recommendation" } }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "observation"],
+      "properties": {
+        "level": { "enum": ["E0", "E1", "E2", "E3", "E4"] },
+        "path": { "type": ["string", "null"] },
+        "lines": { "type": ["string", "null"] },
+        "command": { "type": ["string", "null"] },
+        "observation": { "type": "string" }
+      }
+    },
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "status", "maturity", "effective_weight", "weighted_score", "confidence", "rationale", "evidence"],
+      "properties": {
+        "name": { "type": "string" },
+        "status": { "enum": ["assessed", "unknown", "not_applicable"] },
+        "maturity": { "type": ["integer", "null"], "minimum": 0, "maximum": 5 },
+        "effective_weight": { "type": "number", "minimum": 0, "maximum": 100 },
+        "weighted_score": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+        "confidence": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "rationale": { "type": "string" },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } }
+      }
+    },
+    "riskSignal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "rating", "evidence"],
+      "properties": {
+        "name": { "enum": ["patch_accumulation", "architecture_drift", "knowledge_dependency", "change_blast_radius", "verification_gap", "model_inconsistency", "unbounded_agent_freedom"] },
+        "rating": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status", "severity", "applicability", "readiness_impact", "evidence", "clearance_condition"],
+      "properties": {
+        "id": { "type": "string" },
+        "status": { "enum": ["triggered", "not_triggered", "unknown", "not_applicable"] },
+        "severity": { "enum": ["critical", "high", "medium", "low"] },
+        "applicability": { "type": "string" },
+        "readiness_impact": { "enum": ["BLOCKED", "CONDITIONAL", "NONE", "UNKNOWN"] },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+        "clearance_condition": { "type": "string" }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title", "dimension", "severity", "status", "confidence", "evidence_level", "evidence", "impact", "recommendation", "acceptance"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "dimension": { "type": "string" },
+        "severity": { "enum": ["critical", "high", "medium", "low"] },
+        "status": { "enum": ["confirmed", "probable", "unknown", "not_applicable", "resolved"] },
+        "confidence": { "enum": ["high", "medium", "low"] },
+        "evidence_level": { "enum": ["E0", "E1", "E2", "E3", "E4"] },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/evidence" } },
+        "expected": { "type": "array", "items": { "type": "string" } },
+        "impact": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "recommendation": { "$ref": "#/$defs/recommendation" },
+        "acceptance": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      }
+    },
+    "recommendation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "effort", "expected_impact", "acceptance"],
+      "properties": {
+        "action": { "type": "string" },
+        "effort": { "enum": ["small", "medium", "large"] },
+        "expected_impact": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "acceptance": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "finding_ids": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}
