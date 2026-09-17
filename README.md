@@ -1,16 +1,16 @@
 <div align="center">
 
-# Software Engineering Health Audit
+# Vibe Coding Shit Detector
 
-### Evidence-based engineering health, Vibe Slop risk, and production readiness
+### Is your vibe-coded project real engineering—or just shit?
 
 **Can a capable newcomer understand, change, verify, release, and recover this project without its chat history?**
 
-[![CI](https://github.com/dulanjy/software-engineering-health-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/dulanjy/software-engineering-health-audit/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/dulanjy/software-engineering-health-audit)](https://github.com/dulanjy/software-engineering-health-audit/releases)
+[![CI](https://github.com/dulanjy/vibe-coding-shit-detector/actions/workflows/ci.yml/badge.svg)](https://github.com/dulanjy/vibe-coding-shit-detector/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/dulanjy/vibe-coding-shit-detector)](https://github.com/dulanjy/vibe-coding-shit-detector/releases)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-compatible-0969da)](https://agentskills.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![skills.sh](https://skills.sh/b/dulanjy/software-engineering-health-audit)](https://skills.sh/dulanjy/software-engineering-health-audit)
+[![skills.sh](https://skills.sh/b/dulanjy/vibe-coding-shit-detector)](https://skills.sh/dulanjy/vibe-coding-shit-detector)
 
 [中文说明](README.zh-CN.md) · [Sample audit](examples/audit-report.sample.md) · [Method](references/scoring-model.md) · [Changelog](CHANGELOG.md)
 
@@ -18,7 +18,11 @@
 
 ---
 
-This Agent Skill audits whether a repository's engineering controls match its real lifecycle, complexity, and risk. It does not reward fashionable architecture, count tests as quality, or treat every prototype like a production payment system.
+> Renamed from `software-engineering-health-audit` in v0.3.0. Existing GitHub URLs redirect, but installed copies should be reinstalled and invoked as `$vibe-coding-shit-detector`.
+
+**Vibe Coding Shit Detector** is an evidence-based vibe coding audit for AI-generated codebases. It tells you whether your fast-built project is maintainable software, controlled Vibe Slop, or an unmaintainable pile of shit—and shows the repository evidence behind the verdict.
+
+It does not reward fashionable architecture, count tests as quality, or treat every prototype like a production payment system. The name is blunt; the audit is not.
 
 It keeps four conclusions separate:
 
@@ -36,30 +40,30 @@ Critical security, data, verification, and recovery gates can override a high av
 Install with the open Agent Skills CLI:
 
 ```bash
-npx skills add dulanjy/software-engineering-health-audit \
-  --skill software-engineering-health-audit -g -a codex -y
+npx skills add dulanjy/vibe-coding-shit-detector \
+  --skill vibe-coding-shit-detector -g -a codex -y
 ```
 
 Then ask your agent:
 
 ```text
-Use $software-engineering-health-audit to perform a read-only audit of this repository.
+Use $vibe-coding-shit-detector to tell me whether this vibe-coded project is maintainable engineering or shit.
 Write audit-report.md and audit-result.json, and do not modify project source files.
 ```
 
 Clone installation is also supported:
 
 ```bash
-git clone https://github.com/dulanjy/software-engineering-health-audit.git \
-  ~/.codex/skills/software-engineering-health-audit
+git clone https://github.com/dulanjy/vibe-coding-shit-detector.git \
+  ~/.codex/skills/vibe-coding-shit-detector
 ```
 
 <details>
 <summary>Windows PowerShell clone command</summary>
 
 ```powershell
-git clone https://github.com/dulanjy/software-engineering-health-audit.git `
-  "$env:USERPROFILE\.codex\skills\software-engineering-health-audit"
+git clone https://github.com/dulanjy/vibe-coding-shit-detector.git `
+  "$env:USERPROFILE\.codex\skills\vibe-coding-shit-detector"
 ```
 
 </details>

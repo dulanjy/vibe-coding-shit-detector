@@ -1,9 +1,9 @@
 ---
-name: software-engineering-health-audit
-description: Audit a software repository's engineering health, Vibe Slop risk, evidence confidence, and production readiness from verifiable repository evidence. Use for maintainability, takeover readiness, architecture drift, governance gaps, or AI-generated-code health assessments; do not use for ordinary code review or automatic remediation.
+name: vibe-coding-shit-detector
+description: Detect whether a vibe-coded or AI-generated software project is maintainable engineering or unmaintainable shit. Use for vibe coding audits, vibe code quality, AI codebase health, engineering health, technical debt, architecture drift, maintainability, takeover readiness, production readiness, or Vibe Slop assessments; produces an evidence-based read-only audit, not a style review or automatic remediation.
 ---
 
-# Software Engineering Health Audit
+# Vibe Coding Shit Detector
 
 Assess whether a project can be understood, changed, verified, operated, and recovered without relying on chat history or an original author's memory. Treat the repository and executable controls as evidence; do not grade aesthetics or tool choices.
 

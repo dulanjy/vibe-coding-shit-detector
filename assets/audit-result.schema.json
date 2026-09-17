@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/dulanjy/software-engineering-health-audit/blob/main/assets/audit-result.schema.json",
-  "title": "Software Engineering Health Audit Result",
+  "$id": "https://github.com/dulanjy/vibe-coding-shit-detector/blob/main/assets/audit-result.schema.json",
+  "title": "Vibe Coding Shit Detector Audit Result",
   "type": "object",
   "additionalProperties": false,
   "required": [

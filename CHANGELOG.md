@@ -2,6 +2,19 @@
 
 All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and versions follow [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] - 2026-09-17
+
+### Changed
+
+- Renamed the Skill and repository from `software-engineering-health-audit` to `vibe-coding-shit-detector`.
+- Reworked the title and opening copy around the question “Is your vibe-coded project real engineering—or just shit?”
+- Expanded the Skill description with discovery terms for vibe coding audits, AI-generated code, code quality, technical debt, maintainability, architecture drift, takeover readiness, and production readiness.
+
+### Migration
+
+- Reinstall from `dulanjy/vibe-coding-shit-detector`.
+- Replace `$software-engineering-health-audit` with `$vibe-coding-shit-detector` in saved prompts and automations.
+
 ## [0.2.0] - 2026-09-17
 
 ### Added
@@ -27,5 +40,6 @@ All notable changes to this project are documented here. The format follows [Kee
 - Markdown report template, JSON Schema, read-only inventory and Git coupling helpers.
 - Initial tests and GitHub Actions validation.
 
-[0.2.0]: https://github.com/dulanjy/software-engineering-health-audit/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/dulanjy/software-engineering-health-audit/releases/tag/v0.1.0
+[0.3.0]: https://github.com/dulanjy/vibe-coding-shit-detector/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/dulanjy/vibe-coding-shit-detector/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/dulanjy/vibe-coding-shit-detector/releases/tag/v0.1.0

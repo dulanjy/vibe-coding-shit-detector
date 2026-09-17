@@ -1,13 +1,13 @@
 <div align="center">
 
-# 软件工程健康度审计 Skill
+# Vibe Coding 狗屎检测器
 
-### 基于证据评估工程健康、Vibe Slop 风险与生产就绪度
+### 你的 Vibe Coding 项目到底是工程，还是一坨狗屎？
 
 **如果删除所有聊天记录，一个不了解背景的工程师还能理解、修改、验证、发布和恢复这个项目吗？**
 
-[![CI](https://github.com/dulanjy/software-engineering-health-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/dulanjy/software-engineering-health-audit/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/dulanjy/software-engineering-health-audit)](https://github.com/dulanjy/software-engineering-health-audit/releases)
+[![CI](https://github.com/dulanjy/vibe-coding-shit-detector/actions/workflows/ci.yml/badge.svg)](https://github.com/dulanjy/vibe-coding-shit-detector/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/dulanjy/vibe-coding-shit-detector)](https://github.com/dulanjy/vibe-coding-shit-detector/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [English](README.md) · [示例报告](examples/audit-report.sample.md) · [评分方法](references/scoring-model.md) · [更新记录](CHANGELOG.md)
@@ -16,7 +16,11 @@
 
 ---
 
-这个 Agent Skill 不评价代码“看起来漂不漂亮”，而是检查项目的实际责任、生命周期和复杂度，是否有足够的工程约束支撑。
+> `v0.3.0` 起由 `software-engineering-health-audit` 更名。旧 GitHub 地址会自动跳转，但已安装的 Skill 应重新安装，并改用 `$vibe-coding-shit-detector` 调用。
+
+**Vibe Coding 狗屎检测器**专门审计 AI 生成、快速拼接或持续打补丁形成的代码库。它会告诉你：这个项目是可维护的软件、尚可控制的 Vibe Slop，还是一坨无法接手的工程狗屎，并给出可复核的仓库证据。
+
+名字很直接，审计不会乱骂。它不评价代码“看起来漂不漂亮”，而是检查项目的实际责任、生命周期和复杂度，是否有足够的工程约束支撑。
 
 它将四类结论严格分开：
 
@@ -34,22 +38,22 @@
 使用 Agent Skills CLI 安装：
 
 ```bash
-npx skills add dulanjy/software-engineering-health-audit \
-  --skill software-engineering-health-audit -g -a codex -y
+npx skills add dulanjy/vibe-coding-shit-detector \
+  --skill vibe-coding-shit-detector -g -a codex -y
 ```
 
 然后对 Agent 说：
 
 ```text
-使用 $software-engineering-health-audit 对当前仓库进行只读工程健康审计。
+使用 $vibe-coding-shit-detector 判断当前 Vibe Coding 项目到底是可维护工程还是一坨狗屎。
 生成 audit-report.md 和 audit-result.json，不要修改项目源代码。
 ```
 
 也可以直接克隆：
 
 ```powershell
-git clone https://github.com/dulanjy/software-engineering-health-audit.git `
-  "$env:USERPROFILE\.codex\skills\software-engineering-health-audit"
+git clone https://github.com/dulanjy/vibe-coding-shit-detector.git `
+  "$env:USERPROFILE\.codex\skills\vibe-coding-shit-detector"
 ```
 
 ## 它与普通代码质量评分的区别

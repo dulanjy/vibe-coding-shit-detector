@@ -92,6 +92,15 @@ class PackageContractTests(unittest.TestCase):
             self.assertTrue(path.is_file(), path)
             self.assertNotIn("TODO", path.read_text(encoding="utf-8"))
 
+    def test_discovery_name_is_consistent(self) -> None:
+        self.assertEqual(ROOT.name, "vibe-coding-shit-detector")
+        skill = (ROOT / "SKILL.md").read_text(encoding="utf-8")
+        metadata = (ROOT / "agents" / "openai.yaml").read_text(encoding="utf-8")
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        self.assertIn("name: vibe-coding-shit-detector", skill)
+        self.assertIn("$vibe-coding-shit-detector", metadata)
+        self.assertIn("dulanjy/vibe-coding-shit-detector", readme)
+
     def test_json_schema_is_valid_json_with_expected_contract(self) -> None:
         schema = json.loads((ROOT / "assets" / "audit-result.schema.json").read_text(encoding="utf-8"))
         Draft202012Validator.check_schema(schema)

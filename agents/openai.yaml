@@ -1,4 +1,4 @@
 interface:
-  display_name: "Software Engineering Health Audit"
-  short_description: "Evidence-based engineering health and Vibe Slop audit"
-  default_prompt: "Use $software-engineering-health-audit to perform a read-only, evidence-based audit of this repository."
+  display_name: "Vibe Coding Shit Detector"
+  short_description: "Find out if your vibe-coded project is shit"
+  default_prompt: "Use $vibe-coding-shit-detector to perform a read-only, evidence-based audit of this repository."
