@@ -1,0 +1,58 @@
+name: Audit quality report
+description: Report a false positive, false negative, unstable score, or incorrect UNKNOWN handling.
+title: "[audit-quality]: "
+labels: ["audit-quality"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please remove secrets, private source, customer data, and identifying audit evidence before submitting.
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue type
+      options:
+        - False positive
+        - False negative
+        - UNKNOWN treated as failure
+        - Classification mismatch
+        - Score instability
+        - Critical Gate mismatch
+        - Other audit behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Skill version or commit
+      placeholder: v0.2.0 or commit SHA
+    validations:
+      required: true
+  - type: textarea
+    id: project_context
+    attributes:
+      label: Sanitized project context
+      description: Project type, lifecycle, criticality, and the minimum facts needed to reproduce the behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and actual result
+      description: Include sanitized evidence levels, finding or gate IDs, and the observed conclusion.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+      description: Explain the expected evidence treatment or decision and why.
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed credentials, private code, customer data, and identifying audit evidence.
+          required: true

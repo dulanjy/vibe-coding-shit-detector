@@ -8,6 +8,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from jsonschema import Draft202012Validator
+
 
 ROOT = Path(__file__).resolve().parents[1]
 INVENTORY = ROOT / "scripts" / "repository_inventory.py"
@@ -92,9 +94,33 @@ class PackageContractTests(unittest.TestCase):
 
     def test_json_schema_is_valid_json_with_expected_contract(self) -> None:
         schema = json.loads((ROOT / "assets" / "audit-result.schema.json").read_text(encoding="utf-8"))
+        Draft202012Validator.check_schema(schema)
         self.assertEqual(schema["$schema"], "https://json-schema.org/draft/2020-12/schema")
         self.assertIn("production_readiness", schema["required"])
         self.assertEqual(schema["properties"]["schema_version"]["const"], "0.1")
+
+    def test_sample_result_validates_and_scores_reconcile(self) -> None:
+        schema = json.loads((ROOT / "assets" / "audit-result.schema.json").read_text(encoding="utf-8"))
+        sample = json.loads((ROOT / "examples" / "audit-result.sample.json").read_text(encoding="utf-8"))
+        Draft202012Validator(schema).validate(sample)
+
+        dimension_total = round(sum(item["weighted_score"] for item in sample["dimensions"]), 1)
+        self.assertEqual(dimension_total, 66.6)
+        self.assertEqual(sample["engineering_health"]["score"], round(dimension_total))
+
+        ratings = [item["rating"] for item in sample["vibe_slop_risk"]["signals"]]
+        calculated_risk = round(min(100, sum(ratings) / (5 * 7) * 100 * sample["vibe_slop_risk"]["mismatch_factor"]))
+        self.assertEqual(calculated_risk, sample["vibe_slop_risk"]["score"])
+
+    def test_behavioral_prompt_catalog_is_well_formed(self) -> None:
+        catalog = json.loads((ROOT / "test-prompts.json").read_text(encoding="utf-8"))
+        ids = [case["id"] for case in catalog["cases"]]
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertGreaterEqual(len(ids), 5)
+        for case in catalog["cases"]:
+            self.assertTrue(case["objective"])
+            self.assertTrue(case["prompt"])
+            self.assertGreaterEqual(len(case["assertions"]), 2)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,128 @@
+{
+  "schema_version": "0.1",
+  "audit": {
+    "timestamp": "2026-09-17T08:00:00Z",
+    "revision": "0123456789abcdef0123456789abcdef01234567",
+    "working_tree": "clean",
+    "scope": ["application source", "tests", "git history", "CI", "deployment manifests"],
+    "exclusions": ["managed backup configuration", "production alert routing"]
+  },
+  "project": {
+    "type": "BACKEND_SERVICE",
+    "stage": "PRODUCTION",
+    "criticality": "MEDIUM",
+    "classification_evidence": [
+      {
+        "level": "E3",
+        "path": "src/api/main.py",
+        "lines": "1-35",
+        "command": null,
+        "observation": "Defines the network service entry point."
+      }
+    ]
+  },
+  "engineering_health": {
+    "score": 67,
+    "classification": "CONTROLLED_VIBE"
+  },
+  "vibe_slop_risk": {
+    "score": 39,
+    "level": "CONTROLLED",
+    "mismatch_factor": 1.15,
+    "factor_rationale": "The service has production responsibility and one material ownership and verification gap.",
+    "signals": [
+      { "name": "patch_accumulation", "rating": 2, "evidence": [] },
+      { "name": "architecture_drift", "rating": 1, "evidence": [] },
+      { "name": "knowledge_dependency", "rating": 2, "evidence": [] },
+      { "name": "change_blast_radius", "rating": 2, "evidence": [] },
+      { "name": "verification_gap", "rating": 3, "evidence": [] },
+      { "name": "model_inconsistency", "rating": 1, "evidence": [] },
+      { "name": "unbounded_agent_freedom", "rating": 1, "evidence": [] }
+    ]
+  },
+  "evidence_confidence": {
+    "score": 78,
+    "factors": {
+      "repository_coverage": 90,
+      "executable_evidence_coverage": 75,
+      "git_history_availability": 80,
+      "ci_release_evidence_availability": 75,
+      "infrastructure_operations_evidence": 55,
+      "evidence_consistency": 70
+    }
+  },
+  "production_readiness": "CONDITIONAL",
+  "critical_gates": [],
+  "dimensions": [
+    { "name": "architecture_boundaries", "status": "assessed", "maturity": 4, "effective_weight": 15, "weighted_score": 12, "confidence": 85, "rationale": "Primary layering is explicit; CI does not enforce dependencies.", "evidence": [] },
+    { "name": "domain_data_ownership", "status": "assessed", "maturity": 3, "effective_weight": 12, "weighted_score": 7.2, "confidence": 80, "rationale": "Ownership is defined, but the importer bypasses one write boundary.", "evidence": [] },
+    { "name": "contracts_type_safety", "status": "assessed", "maturity": 4, "effective_weight": 10, "weighted_score": 8, "confidence": 90, "rationale": "API and database contracts are typed and validated.", "evidence": [] },
+    { "name": "verification_testing", "status": "assessed", "maturity": 3, "effective_weight": 15, "weighted_score": 9, "confidence": 80, "rationale": "Critical reads are covered; import-path invariants are not.", "evidence": [] },
+    { "name": "change_isolation", "status": "assessed", "maturity": 3, "effective_weight": 10, "weighted_score": 6, "confidence": 75, "rationale": "History is available; schema changes co-change with both writers.", "evidence": [] },
+    { "name": "observability", "status": "assessed", "maturity": 3, "effective_weight": 8, "weighted_score": 4.8, "confidence": 70, "rationale": "Structured logs exist; business correlation is incomplete.", "evidence": [] },
+    { "name": "release_recoverability", "status": "assessed", "maturity": 3, "effective_weight": 10, "weighted_score": 6, "confidence": 55, "rationale": "Releases are traceable; managed backup evidence is inaccessible.", "evidence": [] },
+    { "name": "knowledge_externalization", "status": "assessed", "maturity": 4, "effective_weight": 8, "weighted_score": 6.4, "confidence": 85, "rationale": "Setup, data flow, and operating notes are retained.", "evidence": [] },
+    { "name": "security_configuration", "status": "assessed", "maturity": 3, "effective_weight": 7, "weighted_score": 4.2, "confidence": 70, "rationale": "Secrets are externalized; dependency scanning is advisory.", "evidence": [] },
+    { "name": "technical_debt_dependencies", "status": "assessed", "maturity": 3, "effective_weight": 5, "weighted_score": 3, "confidence": 75, "rationale": "Debt is recorded, but the import bypass has no exit date.", "evidence": [] }
+  ],
+  "repository_amnesia_test": {
+    "self_sufficiency": "MEDIUM",
+    "observations": ["Run, test, schema, and deployment paths are discoverable."],
+    "missing_knowledge": ["Backup ownership", "Restore exercise evidence", "Alert routing"]
+  },
+  "controlled_change_test": {
+    "simulated_change": "Add material_origin to Product.",
+    "predicted_modules": ["product model", "API schema", "migration", "service writer", "importer", "tests"],
+    "boundaries_crossed": ["API to domain to persistence", "administrative import to persistence"],
+    "unknown_dependencies": ["downstream analytics export ownership"],
+    "verification_plan_available": true,
+    "blast_radius": "MEDIUM"
+  },
+  "findings": [
+    {
+      "id": "VS-DATA-001",
+      "title": "Administrative import bypasses the catalog write service",
+      "dimension": "domain_data_ownership",
+      "severity": "medium",
+      "status": "confirmed",
+      "confidence": "high",
+      "evidence_level": "E3",
+      "evidence": [
+        {
+          "level": "E3",
+          "path": "src/importer/catalog_import.py",
+          "lines": "52-91",
+          "command": null,
+          "observation": "Writes repository records directly instead of using the canonical service."
+        }
+      ],
+      "expected": ["All catalog writers enforce the same invariants."],
+      "impact": ["Imported records can bypass catalog invariants."],
+      "recommendation": {
+        "action": "Route imports through the canonical write service and cover the path with an integration test.",
+        "effort": "medium",
+        "expected_impact": ["One enforceable write boundary", "Verified import invariants"],
+        "acceptance": ["No direct importer writes", "CI rejects an invalid imported record"],
+        "finding_ids": ["VS-DATA-001"]
+      },
+      "acceptance": ["All catalog writers use the canonical boundary.", "CI rejects invalid imported records."]
+    }
+  ],
+  "missing_evidence": ["Managed backup configuration", "Recent restore exercise", "Production alert routing"],
+  "next_highest_leverage_improvement": {
+    "action": "Consolidate catalog writes behind one invariant-enforcing boundary and verify the import path in CI.",
+    "effort": "medium",
+    "expected_impact": ["Reduced ownership ambiguity", "Smaller change blast radius", "Executable import invariants"],
+    "acceptance": ["No direct importer writes", "One invalid-import integration test passes in CI"],
+    "finding_ids": ["VS-DATA-001"]
+  },
+  "recommended_roadmap": [
+    {
+      "action": "Consolidate catalog write paths.",
+      "effort": "medium",
+      "expected_impact": ["Single enforced ownership boundary"],
+      "acceptance": ["All writers use the service boundary"],
+      "finding_ids": ["VS-DATA-001"]
+    }
+  ]
+}
